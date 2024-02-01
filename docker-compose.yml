@@ -1,0 +1,45 @@
+version: "3.9"
+
+networks:
+  laravel:
+    name: laravel
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    depends_on:
+      - stisla
+      - mysql
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./laravel10-stisla:/var/www/html
+    networks:
+      - laravel
+  
+  stisla:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: stisla
+    volumes:
+      - ./laravel10-stisla:/var/www/html
+    networks:
+      - laravel
+
+  mysql:
+    image: mysql:8.3.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD:  laravel_stisla
+      MYSQL_DATABASE: laravel_stisla
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel_stisla
+    networks:
+      - laravel

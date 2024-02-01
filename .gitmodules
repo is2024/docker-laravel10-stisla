@@ -1,0 +1,3 @@
+[submodule "laravel10-stisla"]
+	path = laravel10-stisla
+	url = https://github.com/bahrie127/laravel10-stisla
